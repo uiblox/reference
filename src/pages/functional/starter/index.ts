@@ -2,15 +2,15 @@ import h from 'hyperscript';
 import hh from 'hyperscript-helpers'
 
 
-type DistpatchTyoe = (msg: string, model: number) => void
+type DistpatchType = (msg: string, model: number) => void
 type UpdateType = (msg: string, model: number) => number
-type ViewType = (dispatch: DistpatchTyoe, model: number) => HTMLElement
+type ViewType = (dispatch: DistpatchType, model: number) => HTMLElement
 const { div, button } = hh(h)
 
 const initModel: number = 0
 
 
-function view(dispatch: DistpatchTyoe, model: number) {
+function view(dispatch: DistpatchType, model: number) {
     return div([
         div({className: 'mv2'}, `Count: ${model}`),
         button({className: 'pv1 ph2 mr2', onclick: () => dispatch('plus', model)}, '+'),
