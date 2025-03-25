@@ -35,13 +35,10 @@ function update(msg: string, model: number)  {
     switch (msg) {
         case 'plus':
             return model + 1
-            break
         case 'minus':
             return model - 1
-            break
         default:
             return model
-            break; 
     }
 }
 
