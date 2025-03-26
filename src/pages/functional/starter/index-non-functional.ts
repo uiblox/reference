@@ -5,15 +5,16 @@ const { div, button } = hh(h)
 
 const initModel: number = 0
 
-function view( model: number) {
+// pure function
+function view(dispatch, model: number) {
     return div([
         div({className: 'mv2'}, `Count: ${model}`),
-        button({className: 'pv1 ph2 mr2', onclick: () => { (update("plus", model)) }}, '+'),
-        button({className: 'pv1 ph2',  onclick: () => { (update("minus", model)) }}, '-'),
+        button({className: 'pv1 ph2 mr2', onclick: () => dispatch("plus")}, '+'),
+        button({className: 'pv1 ph2',  onclick: () => dispatch("minus")}, '-'),
     ])
 }
 
-
+// pure function
 function update(msg: string, model: number)  {
    switch (msg) {
         case 'plus':
@@ -25,6 +26,20 @@ function update(msg: string, model: number)  {
     }
 }
 
+// impure function due to the mutations
+function app(initModel, update, view, node) {
+    let model = initModel
+    let currentView = view(dispatch, model)
+    node.appendChild(currentView)
+    function dispatch(msg) {
+        model = update(msg, model)
+        const updatedView = view(dispatch, model)
+        node.replaceChild(updatedView, currentView)
+        currentView = updatedView
+    }
+}
+
 
 const rootNode = document.getElementById('app')
-rootNode?.appendChild(view(initModel))
+
+app(initModel, update, view, rootNode)
